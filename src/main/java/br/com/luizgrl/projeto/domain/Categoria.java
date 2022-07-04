@@ -9,12 +9,12 @@ import javax.persistence.Id;
 
 @Entity //INDICA QUE É UMA ENTIDADE DA JPA
 public class Categoria implements Serializable { // SERIALIZABLE PERMITE QUE OS DADOS SEJAM CONVERTIDOS EM bytes PARA BANCO DE DADOS
+    private static final long serialVersionUID = 1L; // É PRECISO ADICIONAR UMA VERSAO AO SERIALIZABLE
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //DEFININDO A GERAÇÂO DE ID
     private Integer id;
     private String name;
 
-    private static final long serialVersionUID = 1L; // É PRECISO ADICIONAR UMA VERSAO AO SERIALIZABLE
     public Categoria(){
 
     }
