@@ -4,30 +4,38 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-@Entity //INDICA QUE É UMA ENTIDADE DA JPA
-public class Categoria implements Serializable { // SERIALIZABLE PERMITE QUE OS DADOS SEJAM CONVERTIDOS EM bytes PARA BANCO DE DADOS
-    private static final long serialVersionUID = 1L; // É PRECISO ADICIONAR UMA VERSAO AO SERIALIZABLE
+@Entity
+public class Produto implements Serializable{
+    private static final long serialVersionUID = 1L; 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //DEFININDO A GERAÇÂO DE ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    @ManyToMany(mappedBy = "categorias") // como o mapeamento ja foi feito em produtos não é necessario refaze-lo somente precisa especificar onde foi feito no caso é em Produto- categorias
-    private List<Produto> produtos = new ArrayList<>();
-
-    public Categoria(){
-
+    private Double price;
+    @ManyToMany(cascade=CascadeType.PERSIST) //Necessario para rodar não sei o pq
+    @JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"),
+    inverseJoinColumns = @JoinColumn(name= "categoria_id" )) // aqui eh feito a (mapeamento) tabela no banco de dados passando a chave estrangeira de produto e categorias 
+    private List<Categoria> categorias = new ArrayList<>();
+    
+    public Produto() {
     }
+    
 
-    public Categoria(Integer id, String name) {
+    public Produto(Integer id, String name, Double price) {
         this.id = id;
         this.name = name;
+        this.price = price;
     }
+
 
     public Integer getId() {
         return id;
@@ -45,15 +53,23 @@ public class Categoria implements Serializable { // SERIALIZABLE PERMITE QUE OS 
         this.name = name;
     }
 
-        public List<Produto> getProdutos() {
-        return produtos;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
-    // O HASCODE E EQUALS  SERVE PARA COMPARAR OS DADOS QUANDO FOR NECESSARIA 
+    public List<Categoria> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(List<Categoria> categorias) {
+        this.categorias = categorias;
+    }
+
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -61,6 +77,7 @@ public class Categoria implements Serializable { // SERIALIZABLE PERMITE QUE OS 
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
+
 
     @Override
     public boolean equals(Object obj) {
@@ -70,7 +87,7 @@ public class Categoria implements Serializable { // SERIALIZABLE PERMITE QUE OS 
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Categoria other = (Categoria) obj;
+        Produto other = (Produto) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -78,8 +95,8 @@ public class Categoria implements Serializable { // SERIALIZABLE PERMITE QUE OS 
             return false;
         return true;
     }
-    
+
+  
+
     
 }
-
-
