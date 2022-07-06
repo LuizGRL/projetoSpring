@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,7 +18,7 @@ public class Estado implements Serializable{
     private Integer id;
     private String name;
     
-    @OneToMany(mappedBy = "estado")// estado foi oq atributo q mapeou em cidade
+    @OneToMany(mappedBy = "estado",cascade = CascadeType.PERSIST)// estado foi oq atributo q mapeou em cidade
     private List<Cidade> cidades = new ArrayList<>();
 
     public Estado() {
