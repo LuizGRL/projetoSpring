@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity //INDICA QUE É UMA ENTIDADE DA JPA
 public class Categoria implements Serializable { // SERIALIZABLE PERMITE QUE OS DADOS SEJAM CONVERTIDOS EM bytes PARA BANCO DE DADOS
     private static final long serialVersionUID = 1L; // É PRECISO ADICIONAR UMA VERSAO AO SERIALIZABLE
@@ -17,6 +19,8 @@ public class Categoria implements Serializable { // SERIALIZABLE PERMITE QUE OS 
     @GeneratedValue(strategy = GenerationType.IDENTITY) //DEFININDO A GERAÇÂO DE ID
     private Integer id;
     private String name;
+    
+    @JsonManagedReference // Permite a serialização passando a referencia para que os obejtos associados possam ser acessados  precisa criar uma backrefence na outra ponta da tabela
     @ManyToMany(mappedBy = "categorias") // como o mapeamento ja foi feito em produtos não é necessario refaze-lo somente precisa especificar onde foi feito no caso é em Produto- categorias
     private List<Produto> produtos = new ArrayList<>();
 
