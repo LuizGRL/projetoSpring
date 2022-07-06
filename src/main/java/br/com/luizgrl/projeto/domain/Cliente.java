@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import br.com.luizgrl.projeto.domain.enums.TipoCliente;
 
 @Entity
@@ -30,6 +32,7 @@ public class Cliente implements Serializable  {
     @CollectionTable(name="telefone") // como telefone é uma entidade fraca que não foi criada classe é necessario criar uma coleção de elementos para que ela seja adicionada na tabela do banco de dados
     private Set<String> telefones = new HashSet<>(); // e usa Set pois nele não permite que haja repetições assim caso seja adicionado mais de um numero eles nao irao ser repetidos 
     
+    @JsonManagedReference
     @OneToMany(mappedBy = "cliente")
     private List<Endereco> enderecos = new ArrayList<>();
     
