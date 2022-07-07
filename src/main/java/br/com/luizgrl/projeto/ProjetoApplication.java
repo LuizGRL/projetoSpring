@@ -1,25 +1,30 @@
 package br.com.luizgrl.projeto;
 
-
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import br.com.luizgrl.projeto.domain.Categoria;
 import br.com.luizgrl.projeto.domain.Cidade;
 import br.com.luizgrl.projeto.domain.Cliente;
 import br.com.luizgrl.projeto.domain.Endereco;
 import br.com.luizgrl.projeto.domain.Estado;
+import br.com.luizgrl.projeto.domain.Pagamento;
+import br.com.luizgrl.projeto.domain.PagamentoBoleto;
+import br.com.luizgrl.projeto.domain.PagamentoCartao;
+import br.com.luizgrl.projeto.domain.Pedido;
 import br.com.luizgrl.projeto.domain.Produto;
+import br.com.luizgrl.projeto.domain.enums.EstadoPagamento;
 import br.com.luizgrl.projeto.domain.enums.TipoCliente;
 import br.com.luizgrl.projeto.repositories.CategoriaRepository;
 import br.com.luizgrl.projeto.repositories.CidadeRepository;
 import br.com.luizgrl.projeto.repositories.ClienteRepository;
 import br.com.luizgrl.projeto.repositories.EnderecoRepository;
 import br.com.luizgrl.projeto.repositories.EstadoRepository;
+import br.com.luizgrl.projeto.repositories.PagamentoRepository;
+import br.com.luizgrl.projeto.repositories.PedidoRepository;
 import br.com.luizgrl.projeto.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -42,6 +47,12 @@ public class ProjetoApplication implements CommandLineRunner{
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+
+	@Autowired
+	private PedidoRepository pedidoRepository;
+
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjetoApplication.class, args);
@@ -86,6 +97,24 @@ public class ProjetoApplication implements CommandLineRunner{
 		cliente2.getEnderecos().addAll(Arrays.asList(endereco1));
 		cliente3.getEnderecos().addAll(Arrays.asList(endereco2));
 
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+
+		Pedido pedido1 = new Pedido(null,sdf.parse("30/05/2020 12:40"),endereco1,cliente1);
+		Pedido pedido2 = new Pedido(null,sdf.parse("16/06/2020 10:20"),endereco1,cliente2);
+		Pedido pedido3 = new Pedido(null,sdf.parse("08/06/2020 22:40"),endereco2,cliente1);
+
+		Pagamento pagamento1 = new PagamentoCartao(null, EstadoPagamento.PENDENTE,pedido1, 2);
+		pedido1.setPagamento(pagamento1);
+		Pagamento pagamento2 = new PagamentoCartao(null, EstadoPagamento.CANCELADO,pedido2, 1);
+		pedido2.setPagamento(pagamento2);
+		Pagamento pagamento3 = new PagamentoBoleto(null, EstadoPagamento.QUITADO, pedido3, sdf.parse("15/06/2020 23:59"), null);
+		pedido3.setPagamento(pagamento3);
+
+		cliente1.getPedidos().addAll(Arrays.asList(pedido1,pedido3));
+		cliente2.getPedidos().addAll(Arrays.asList(pedido2));
+
+		pedidoRepository.saveAll(Arrays.asList(pedido1,pedido2,pedido3));
+		pagamentoRepository.saveAll(Arrays.asList(pagamento1,pagamento2,pagamento3));
 		clienteRepository.saveAll(Arrays.asList(cliente1,cliente2,cliente3));
 		enderecoRepository.saveAll((Arrays.asList(endereco1,endereco2)));
 		estadoRepository.saveAll(Arrays.asList(estado1,estado2));

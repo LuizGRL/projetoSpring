@@ -25,7 +25,7 @@ public class Endereco implements Serializable{
     private String bairro;
     private String cep;
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "cliente_id" )
     private Cliente cliente;
     
