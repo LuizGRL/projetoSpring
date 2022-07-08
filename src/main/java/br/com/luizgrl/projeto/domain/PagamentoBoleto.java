@@ -4,11 +4,15 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import br.com.luizgrl.projeto.domain.enums.EstadoPagamento;
 
 @Entity
 public class PagamentoBoleto extends Pagamento {
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date dueDate;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date paymentDate;
     public Date getDueDate() {
         return dueDate;
