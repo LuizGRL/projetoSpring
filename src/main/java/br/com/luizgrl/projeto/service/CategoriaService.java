@@ -17,6 +17,11 @@ public class CategoriaService {
         Optional<Categoria> obj  = catRepo.findById(id); // Buscando pelo id
         return obj.orElseThrow(()-> new ObjectNotFoundException(
             "Id: "+id+" Não encontrado em categorias. Tipo"+Categoria.class.getName())); // capturando e tratando um erro de id não encontrado 
+    }
+
+    public Categoria insert(Categoria obj){
+        obj.setId(null); // o objeto deve ter id null caso n seja vai ser considerado uma atualizao 
+        return catRepo.save(obj);
 
     }
     
