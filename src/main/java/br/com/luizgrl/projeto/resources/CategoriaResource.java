@@ -31,5 +31,13 @@ public class CategoriaResource {
         //vai definir o caminho da requisição e adicionar no corpo o id do objeto desejado convertendo ele para id
         return ResponseEntity.created(uri).build();
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Void> update(@PathVariable Integer id, @RequestBody Categoria obj){
+        obj.setId(id);
+        obj = categoriaService.update(obj);
+        return ResponseEntity.noContent().build();
+
+    }
     
 }

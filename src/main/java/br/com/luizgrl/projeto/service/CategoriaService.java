@@ -22,7 +22,10 @@ public class CategoriaService {
     public Categoria insert(Categoria obj){
         obj.setId(null); // o objeto deve ter id null caso n seja vai ser considerado uma atualizao 
         return catRepo.save(obj);
-
+    }
+    public Categoria update(Categoria obj){
+        find(obj.getId());// vai pegar o id pra ver se ele existe 
+        return catRepo.save(obj);
     }
     
 }
