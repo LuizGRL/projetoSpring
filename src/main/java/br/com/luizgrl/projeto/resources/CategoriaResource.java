@@ -36,6 +36,12 @@ public class CategoriaResource {
     public ResponseEntity<Void> update(@PathVariable Integer id, @RequestBody Categoria obj){
         obj.setId(id);
         obj = categoriaService.update(obj);
+        return ResponseEntity.noContent().build(); // retorna uma resposta vazia
+
+    }
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> delete(@PathVariable Integer id){
+        categoriaService.delete(id);
         return ResponseEntity.noContent().build();
 
     }

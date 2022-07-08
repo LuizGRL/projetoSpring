@@ -3,8 +3,8 @@ package br.com.luizgrl.projeto.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-
 import br.com.luizgrl.projeto.domain.Categoria;
 import br.com.luizgrl.projeto.repositories.CategoriaRepository;
 import br.com.luizgrl.projeto.service.exceptions.ObjectNotFoundException;
@@ -27,5 +27,13 @@ public class CategoriaService {
         find(obj.getId());// vai pegar o id pra ver se ele existe 
         return catRepo.save(obj);
     }
-    
+    public void delete(Integer id){
+        find(id);
+        try{
+            catRepo.deleteById(id);
+
+        }catch (DataIntegrityViolationException event){//caso tente apagar uma cateagoria que tem produtos associados ira bloquear a aação
+            throw new DataIntegrityViolationException("Não é possivel excluir essa categoria pois ela possui produtos associdos ", event) ;
+        }
+    }
 }
