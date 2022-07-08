@@ -11,6 +11,7 @@ import br.com.luizgrl.projeto.domain.Cidade;
 import br.com.luizgrl.projeto.domain.Cliente;
 import br.com.luizgrl.projeto.domain.Endereco;
 import br.com.luizgrl.projeto.domain.Estado;
+import br.com.luizgrl.projeto.domain.ItemPedido;
 import br.com.luizgrl.projeto.domain.Pagamento;
 import br.com.luizgrl.projeto.domain.PagamentoBoleto;
 import br.com.luizgrl.projeto.domain.PagamentoCartao;
@@ -23,6 +24,7 @@ import br.com.luizgrl.projeto.repositories.CidadeRepository;
 import br.com.luizgrl.projeto.repositories.ClienteRepository;
 import br.com.luizgrl.projeto.repositories.EnderecoRepository;
 import br.com.luizgrl.projeto.repositories.EstadoRepository;
+import br.com.luizgrl.projeto.repositories.ItemPedidoRepository;
 import br.com.luizgrl.projeto.repositories.PagamentoRepository;
 import br.com.luizgrl.projeto.repositories.PedidoRepository;
 import br.com.luizgrl.projeto.repositories.ProdutoRepository;
@@ -53,6 +55,9 @@ public class ProjetoApplication implements CommandLineRunner{
 
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjetoApplication.class, args);
@@ -112,16 +117,31 @@ public class ProjetoApplication implements CommandLineRunner{
 
 		cliente1.getPedidos().addAll(Arrays.asList(pedido1,pedido3));
 		cliente2.getPedidos().addAll(Arrays.asList(pedido2));
-
 		pedidoRepository.saveAll(Arrays.asList(pedido1,pedido2,pedido3));
+		produtoRepository.saveAll(Arrays.asList(produto1,produto2,produto3));
+
+		
+		ItemPedido itemPedido1 = new ItemPedido(pedido1, produto1, 0.20, 1, 2000.00);
+		ItemPedido itemPedido2 = new ItemPedido(pedido1, produto2, 0.00, 1, 1500.00);
+		ItemPedido itemPedido3 = new ItemPedido(pedido3, produto3, 0.00, 1, 600.00);
+		ItemPedido itemPedido4 = new ItemPedido(pedido2, produto1, 0.20, 1, 2000.00);
+
+		pedido1.getItemPedidos().addAll(Arrays.asList(itemPedido1,itemPedido2));
+		pedido2.getItemPedidos().addAll(Arrays.asList(itemPedido4));
+		pedido3.getItemPedidos().addAll(Arrays.asList(itemPedido3));
+
+		produto1.getItemPedidos().addAll(Arrays.asList(itemPedido1,itemPedido4));
+		produto2.getItemPedidos().addAll(Arrays.asList(itemPedido2));
+		produto3.getItemPedidos().addAll(Arrays.asList(itemPedido3));
+
+		itemPedidoRepository.saveAll(Arrays.asList(itemPedido1,itemPedido2,itemPedido3,itemPedido4));
 		pagamentoRepository.saveAll(Arrays.asList(pagamento1,pagamento2,pagamento3));
 		clienteRepository.saveAll(Arrays.asList(cliente1,cliente2,cliente3));
 		enderecoRepository.saveAll((Arrays.asList(endereco1,endereco2)));
 		estadoRepository.saveAll(Arrays.asList(estado1,estado2));
 		cidadeRepository.saveAll(Arrays.asList(cidade1,cidade2,cidade3,cidade4));
-		produtoRepository.saveAll(Arrays.asList(produto1,produto2,produto3));
 		categoriaRepository.saveAll(Arrays.asList(categoria1,categoria2));
-
+	
 	}
 
 }

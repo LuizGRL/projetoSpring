@@ -2,7 +2,9 @@ package br.com.luizgrl.projeto.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -12,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -28,7 +31,19 @@ public class Produto implements Serializable{
     @JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"),
     inverseJoinColumns = @JoinColumn(name= "categoria_id" )) // aqui eh feito a (mapeamento) tabela no banco de dados passando a chave estrangeira de produto e categorias 
     private List<Categoria> categorias = new ArrayList<>();
+
+    @OneToMany(mappedBy = "id.produto")
+    private Set<ItemPedido> itemPedidos = new HashSet<>();
     
+    public List<Pedido> getPedidos(){
+        List<Pedido> list = new ArrayList<>();
+        for(ItemPedido x : itemPedidos){
+            list.add(x.getPedido());
+
+        }
+        return list;
+    }
+
     public Produto() {
     }
     
@@ -37,6 +52,16 @@ public class Produto implements Serializable{
         this.id = id;
         this.name = name;
         this.price = price;
+    }
+
+
+    public Set<ItemPedido> getItemPedidos() {
+        return itemPedidos;
+    }
+
+
+    public void setItemPedidos(Set<ItemPedido> itemPedidos) {
+        this.itemPedidos = itemPedidos;
     }
 
 
