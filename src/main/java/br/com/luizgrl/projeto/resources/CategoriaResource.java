@@ -1,5 +1,8 @@
 package br.com.luizgrl.projeto.resources;
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.luizgrl.projeto.domain.Categoria;
+import br.com.luizgrl.projeto.dto.CategoriaDTO;
 import br.com.luizgrl.projeto.service.CategoriaService;
 
 @RestController
@@ -43,6 +47,14 @@ public class CategoriaResource {
     public ResponseEntity<Void> delete(@PathVariable Integer id){
         categoriaService.delete(id);
         return ResponseEntity.noContent().build();
+
+    }
+
+    @RequestMapping
+    public ResponseEntity<List<CategoriaDTO>> findAll(){
+        List<Categoria> list = categoriaService.findAll();
+        List<CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj)/*Para cada obj de lista  */).collect(Collectors.toList());// convertendo para lista 
+        return ResponseEntity.ok().body(listDTO);
 
     }
     

@@ -1,5 +1,6 @@
 package br.com.luizgrl.projeto.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,8 @@ public class CategoriaService {
         }catch (DataIntegrityViolationException event){//caso tente apagar uma cateagoria que tem produtos associados ira bloquear a aação
             throw new DataIntegrityViolationException("Não é possivel excluir essa categoria pois ela possui produtos associdos ", event) ;
         }
+    }
+    public List<Categoria> findAll(){ // Existe um problema  na implementação que alem de mostrar as categorias tambem mostra os produtos para corrigir isso se usa o padrao DTO para regular os dados a serem mostrados 
+        return catRepo.findAll();
     }
 }
