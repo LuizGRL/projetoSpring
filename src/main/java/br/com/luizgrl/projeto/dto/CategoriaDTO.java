@@ -2,12 +2,20 @@ package br.com.luizgrl.projeto.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import br.com.luizgrl.projeto.domain.Categoria;
+
 
 public class CategoriaDTO implements Serializable{
     public static final long serialVersionUID = 1L;
 
     private Integer id;
+    
+    @NotEmpty(message = "Campo não pode ser vazio ")
+    @Length(min = 5,max = 80, message = "Quantidade de cacteres muito baixa ou muito alta")
     private String name;
     
     public CategoriaDTO() {

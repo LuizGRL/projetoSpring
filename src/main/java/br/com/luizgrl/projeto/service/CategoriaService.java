@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import br.com.luizgrl.projeto.domain.Categoria;
+import br.com.luizgrl.projeto.dto.CategoriaDTO;
 import br.com.luizgrl.projeto.repositories.CategoriaRepository;
 import br.com.luizgrl.projeto.service.exceptions.ObjectNotFoundException;
 
@@ -39,5 +40,8 @@ public class CategoriaService {
     }
     public List<Categoria> findAll(){ // Existe um problema  na implementação que alem de mostrar as categorias tambem mostra os produtos para corrigir isso se usa o padrao DTO para regular os dados a serem mostrados 
         return catRepo.findAll();
+    }
+    public Categoria fromDTO(CategoriaDTO objDto){ // Usado para converter de DTO para categoria
+        return new Categoria(objDto.getId(),objDto.getName());
     }
 }
