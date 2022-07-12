@@ -27,6 +27,7 @@ public class CategoriaService {
                                                                                                    // de id não
                                                                                                    // encontrado
     }
+    
 
     public Categoria insert(Categoria obj) {
         obj.setId(null); // o objeto deve ter id null caso n seja vai ser considerado uma atualizao
@@ -34,8 +35,10 @@ public class CategoriaService {
     }
 
     public Categoria update(Categoria obj) {
-        find(obj.getId());// vai pegar o id pra ver se ele existe
-        return catRepo.save(obj);
+        Categoria newObj = find(obj.getId());
+        updateData(newObj, obj);
+        return catRepo.save(newObj);
+
     }
 
     public void delete(Integer id) {
@@ -67,5 +70,9 @@ public class CategoriaService {
         
         return catRepo.findAll(pageRequest);
     } // serve para limitar e padronizar a quantidade de elementos a serem mostrados no get
+
+    private void updateData(Categoria newObj, Categoria obj){
+        newObj.setName(obj.getName());
+    }
 
 }

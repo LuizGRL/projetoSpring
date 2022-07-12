@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +26,7 @@ public class Produto implements Serializable{
     private String name;
     private Double price;
     @JsonIgnore // outra ponta da serialização 
-    @ManyToMany(cascade=CascadeType.PERSIST) //Necessario para rodar não sei o pq
+    @ManyToMany //Necessario para rodar não sei o pq
     @JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"),
     inverseJoinColumns = @JoinColumn(name= "categoria_id" )) // aqui eh feito a (mapeamento) tabela no banco de dados passando a chave estrangeira de produto e categorias 
     private List<Categoria> categorias = new ArrayList<>();

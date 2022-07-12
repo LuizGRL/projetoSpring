@@ -74,7 +74,6 @@ public class ProjetoApplication implements CommandLineRunner{
 		Categoria categoria7 = new Categoria(null,"Construção");
 
 		
-		
 		Produto produto1 = new Produto(null, "computador",2000.00);
 		Produto produto2 = new Produto(null, "caneta",2.00);	
 		Produto produto3 = new Produto(null, "mouse",20.00);
@@ -85,6 +84,10 @@ public class ProjetoApplication implements CommandLineRunner{
 		produto2.getCategorias().addAll(Arrays.asList(categoria2));
 		produto3.getCategorias().addAll(Arrays.asList(categoria1,categoria2));
 
+		categoriaRepository.saveAll(Arrays.asList(categoria1,categoria2,categoria3,categoria4,categoria5,categoria6,categoria7));
+		produtoRepository.saveAll(Arrays.asList(produto1,produto2,produto3));
+
+
 		Estado estado1 = new Estado(null,"Goais");
 		Estado estado2 = new Estado(null, "Rio de Janeiro");
 		Cidade cidade1 = new Cidade(null, "Goiania",estado1);
@@ -94,6 +97,9 @@ public class ProjetoApplication implements CommandLineRunner{
 
 		estado1.getCidades().addAll(Arrays.asList(cidade1, cidade3));
 		estado2.getCidades().addAll(Arrays.asList(cidade2,cidade4));
+
+		estadoRepository.saveAll(Arrays.asList(estado1,estado2));
+		cidadeRepository.saveAll(Arrays.asList(cidade1,cidade2,cidade3,cidade4));
 
 		Cliente cliente1 = new Cliente(null,"Luiz","luiz@email.com","0000000",TipoCliente.PESSOAFISICA);
 		Cliente cliente2 = new Cliente(null,"Paloma","paloma@email.com","0000000",TipoCliente.PESSOAFISICA);
@@ -109,6 +115,9 @@ public class ProjetoApplication implements CommandLineRunner{
 		cliente1.getEnderecos().addAll(Arrays.asList(endereco1));
 		cliente2.getEnderecos().addAll(Arrays.asList(endereco1));
 		cliente3.getEnderecos().addAll(Arrays.asList(endereco2));
+
+		clienteRepository.saveAll(Arrays.asList(cliente1,cliente2,cliente3));
+		enderecoRepository.saveAll((Arrays.asList(endereco1,endereco2)));
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 
@@ -126,7 +135,6 @@ public class ProjetoApplication implements CommandLineRunner{
 		cliente1.getPedidos().addAll(Arrays.asList(pedido1,pedido3));
 		cliente2.getPedidos().addAll(Arrays.asList(pedido2));
 		pedidoRepository.saveAll(Arrays.asList(pedido1,pedido2,pedido3));
-		produtoRepository.saveAll(Arrays.asList(produto1,produto2,produto3));
 
 		
 		ItemPedido itemPedido1 = new ItemPedido(pedido1, produto1, 0.20, 1, 2000.00);
@@ -144,11 +152,8 @@ public class ProjetoApplication implements CommandLineRunner{
 
 		itemPedidoRepository.saveAll(Arrays.asList(itemPedido1,itemPedido2,itemPedido3,itemPedido4));
 		pagamentoRepository.saveAll(Arrays.asList(pagamento1,pagamento2,pagamento3));
-		clienteRepository.saveAll(Arrays.asList(cliente1,cliente2,cliente3));
-		enderecoRepository.saveAll((Arrays.asList(endereco1,endereco2)));
-		estadoRepository.saveAll(Arrays.asList(estado1,estado2));
-		cidadeRepository.saveAll(Arrays.asList(cidade1,cidade2,cidade3,cidade4));
-		categoriaRepository.saveAll(Arrays.asList(categoria1,categoria2,categoria3,categoria4,categoria5,categoria6,categoria7));
+	
+		
 	
 	}
 

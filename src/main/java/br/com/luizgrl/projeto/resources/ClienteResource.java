@@ -1,5 +1,6 @@
 package br.com.luizgrl.projeto.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import br.com.luizgrl.projeto.domain.Cliente;
 import br.com.luizgrl.projeto.dto.ClienteDTO;
+import br.com.luizgrl.projeto.dto.NewClienteDTO;
 import br.com.luizgrl.projeto.service.ClienteService;
 
 @RestController
@@ -45,6 +49,14 @@ public class ClienteResource {
     public ResponseEntity<Void> delete(@PathVariable Integer id){
         clienteService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> insert(@Valid @RequestBody NewClienteDTO newClienteDTO){
+        Cliente obj = clienteService.fromDTO(newClienteDTO);
+        obj = clienteService.insert(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+
     }
 
 }
