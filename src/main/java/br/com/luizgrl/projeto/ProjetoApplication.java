@@ -66,7 +66,15 @@ public class ProjetoApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		Categoria categoria1 = new Categoria(null,"escritorio");
-		Categoria categoria2 = new Categoria(null,"Computador");	
+		Categoria categoria2 = new Categoria(null,"Computador");
+		Categoria categoria3 = new Categoria(null,"Livros");
+		Categoria categoria4 = new Categoria(null,"Coleção");
+		Categoria categoria5 = new Categoria(null,"DVD");
+		Categoria categoria6 = new Categoria(null,"Jardinagem");
+		Categoria categoria7 = new Categoria(null,"Construção");
+
+		
+		
 		Produto produto1 = new Produto(null, "computador",2000.00);
 		Produto produto2 = new Produto(null, "caneta",2.00);	
 		Produto produto3 = new Produto(null, "mouse",20.00);
@@ -140,7 +148,7 @@ public class ProjetoApplication implements CommandLineRunner{
 		enderecoRepository.saveAll((Arrays.asList(endereco1,endereco2)));
 		estadoRepository.saveAll(Arrays.asList(estado1,estado2));
 		cidadeRepository.saveAll(Arrays.asList(cidade1,cidade2,cidade3,cidade4));
-		categoriaRepository.saveAll(Arrays.asList(categoria1,categoria2));
+		categoriaRepository.saveAll(Arrays.asList(categoria1,categoria2,categoria3,categoria4,categoria5,categoria6,categoria7));
 	
 	}
 
