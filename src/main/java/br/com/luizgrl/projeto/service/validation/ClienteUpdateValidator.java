@@ -2,40 +2,43 @@ package br.com.luizgrl.projeto.service.validation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import javax.persistence.Id;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.HandlerMapping;
 
 import br.com.luizgrl.projeto.domain.Cliente;
-import br.com.luizgrl.projeto.domain.enums.TipoCliente;
-import br.com.luizgrl.projeto.dto.NewClienteDTO;
+import br.com.luizgrl.projeto.dto.ClienteDTO;
 import br.com.luizgrl.projeto.repositories.ClienteRepository;
 import br.com.luizgrl.projeto.resources.exceptions.FieldMensage;
-import br.com.luizgrl.projeto.service.validation.utils.BR;
-public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert, NewClienteDTO> {
+public class ClienteUpdateValidator implements ConstraintValidator<ClienteUpdate, ClienteDTO> {
  @Override
- public void initialize(ClienteInsert ann) {
+ public void initialize(ClienteUpdate ann) {
 }
 
 @Autowired
 private ClienteRepository clienteRepository;
+
+@Autowired
+private HttpServletRequest request; // vai ser utilizado para pegar o id do cliente
 @Override
-public boolean isValid(NewClienteDTO objDto, ConstraintValidatorContext context) { // verifica se o metodo é valido
+public boolean isValid(ClienteDTO objDto, ConstraintValidatorContext context) { // verifica se o metodo é valido
 List<FieldMensage> list = new ArrayList<>();
-
-if(objDto.getTipoCliente().equals(TipoCliente.PESSOAFISICA.getCod())&& !BR.isValidCpf(objDto.getCpfOrCnpj())){
-    list.add(new FieldMensage("cpfOrCnpj","CPF INVALIDO"));
-}
-if(objDto.getTipoCliente().equals(TipoCliente.PESSOAJURIDICA.getCod())&& !BR.isValidCnpj(objDto.getCpfOrCnpj())){
-    list.add(new FieldMensage("cpfOrCnpj","CNPJ INVALIDO"));
-}
+@SuppressWarnings("unchecked") // para tirar o erro amarelo 
+Map<String,String> map = (Map <String,String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+// vai ser utilizado para pegar os atributos que vem na requisição 
+Integer uriId = Integer.parseInt( map.get("id"));
 Cliente aux = clienteRepository.findByEmail(objDto.getEmail());
-if(aux != null){
-    list.add( new FieldMensage("email","Email já foi registrado "));
+
+if(aux != null && aux.getId().equals(uriId)){
+    list.add(new FieldMensage("email","Email ja foi adicionado a outro usuario "));
 
 }
-
 
 for (FieldMensage e : list) { 
 context.disableDefaultConstraintViolation();
