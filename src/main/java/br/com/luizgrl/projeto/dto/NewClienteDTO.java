@@ -2,22 +2,39 @@ package br.com.luizgrl.projeto.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import br.com.luizgrl.projeto.service.validation.ClienteInsert;
+
+@ClienteInsert
 public class NewClienteDTO implements Serializable{
     public NewClienteDTO() {
     }
     private static final long serialVersionUID= 1L;
-    
+    @NotEmpty(message = "Preencimento  obrigatorio")
+    @Length(min = 5,max = 128, message = "Minimo de 5 caracters e maximo de 128")
     private String name;
+    @Email
+    @NotEmpty(message = "Preencimento  obrigatorio")
     private String email;
+    @NotEmpty(message = "Preencimento  obrigatorio")
     private String cpfOrCnpj;
     private Integer tipoCliente;
+    @NotEmpty(message = "Preencimento  obrigatorio")
     private String telefone1;
     private String telefone2;
     private String telefone3;
+    @NotEmpty(message = "Preencimento  obrigatorio")
     private String logradouro;
+    @NotEmpty(message = "Preencimento  obrigatorio")
     private String numero;
     private String complemento;
+    @NotEmpty(message = "Preencimento  obrigatorio")
     private String bairro;
+    @NotEmpty(message = "Preencimento  obrigatorio")
     private String cep;
     private Integer cidadeId;
 

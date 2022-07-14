@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -32,7 +33,7 @@ public class Cliente implements Serializable  {
     @CollectionTable(name="telefone") // como telefone é uma entidade fraca que não foi criada classe é necessario criar uma coleção de elementos para que ela seja adicionada na tabela do banco de dados
     private Set<String> telefones = new HashSet<>(); // e usa Set pois nele não permite que haja repetições assim caso seja adicionado mais de um numero eles nao irao ser repetidos 
     
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente",cascade = CascadeType.ALL)// se cliente for deletado todos os endereços vao ser deletados tambem
     private List<Endereco> enderecos = new ArrayList<>();
     
     @OneToMany(mappedBy = "cliente")
