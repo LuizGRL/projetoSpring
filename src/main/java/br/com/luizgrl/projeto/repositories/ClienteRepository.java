@@ -7,5 +7,6 @@ import br.com.luizgrl.projeto.domain.Cliente;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
+    Cliente findByEmail(String email);
 
 }
