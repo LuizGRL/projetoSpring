@@ -77,15 +77,39 @@ public class ProjetoApplication implements CommandLineRunner{
 		Produto produto1 = new Produto(null, "computador",2000.00);
 		Produto produto2 = new Produto(null, "caneta",2.00);	
 		Produto produto3 = new Produto(null, "mouse",20.00);
+		Produto produto4 = new Produto(null, "plastic love",20.00);
+		Produto produto5 = new Produto(null, "funko",20.00);
+		Produto produto6 = new Produto(null, "planta carnivora",20.00);
+		Produto produto7 = new Produto(null, "arame",20.00);
+		Produto produto8 = new Produto(null, "pa",20.00);
+		Produto produto9 = new Produto(null, "semente",20.00);
+		Produto produto10 = new Produto(null, "Senhor dos aneis",20.00);
+		Produto produto11 = new Produto(null, "kafka a beira mar",20.00);
+
 
 		categoria1.getProdutos().addAll(Arrays.asList(produto1,produto2,produto3));
 		categoria2.getProdutos().addAll(Arrays.asList(produto1,produto2));
+		categoria3.getProdutos().addAll(Arrays.asList(produto10,produto11));
+		categoria4.getProdutos().addAll(Arrays.asList(produto5));
+		categoria5.getProdutos().addAll(Arrays.asList(produto4));
+		categoria6.getProdutos().addAll(Arrays.asList(produto6,produto9,produto8));
+		categoria7.getProdutos().addAll(Arrays.asList(produto7,produto8));
+		
 		produto1.getCategorias().addAll(Arrays.asList(categoria1,categoria2));
 		produto2.getCategorias().addAll(Arrays.asList(categoria2));
 		produto3.getCategorias().addAll(Arrays.asList(categoria1,categoria2));
+		produto4.getCategorias().addAll(Arrays.asList(categoria5));
+		produto5.getCategorias().addAll(Arrays.asList(categoria4));
+		produto6.getCategorias().addAll(Arrays.asList(categoria6));
+		produto7.getCategorias().addAll(Arrays.asList(categoria7));
+		produto8.getCategorias().addAll(Arrays.asList(categoria6,categoria7));
+		produto9.getCategorias().addAll(Arrays.asList(categoria6));
+		produto10.getCategorias().addAll(Arrays.asList(categoria3));
+		produto11.getCategorias().addAll(Arrays.asList(categoria3));
+
 
 		categoriaRepository.saveAll(Arrays.asList(categoria1,categoria2,categoria3,categoria4,categoria5,categoria6,categoria7));
-		produtoRepository.saveAll(Arrays.asList(produto1,produto2,produto3));
+		produtoRepository.saveAll(Arrays.asList(produto1,produto2,produto3,produto4,produto5,produto6,produto7,produto8,produto9,produto10,produto11));
 
 
 		Estado estado1 = new Estado(null,"Goais");
