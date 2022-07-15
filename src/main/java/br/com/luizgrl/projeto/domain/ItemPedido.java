@@ -28,6 +28,10 @@ public class ItemPedido implements Serializable{
         this.quantity = quantity;
         this.price = price;
     }
+
+    public double getSubTotal(){
+        return(price-discount) * quantity;
+    }
     @JsonIgnore // impede que serialize impedindo acesso ciclico
     public Pedido getPedido(){ // para ter acesso a pedido e produto sem ter que acessar id 
         return id.getPedido();

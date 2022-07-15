@@ -162,7 +162,7 @@ public class ProjetoApplication implements CommandLineRunner{
 
 		
 		ItemPedido itemPedido1 = new ItemPedido(pedido1, produto1, 0.20, 1, 2000.00);
-		ItemPedido itemPedido2 = new ItemPedido(pedido1, produto2, 0.00, 1, 1500.00);
+		ItemPedido itemPedido2 = new ItemPedido(pedido1, produto2, 0.00, 2, 1500.00);
 		ItemPedido itemPedido3 = new ItemPedido(pedido3, produto3, 0.00, 1, 600.00);
 		ItemPedido itemPedido4 = new ItemPedido(pedido2, produto1, 0.20, 1, 2000.00);
 
