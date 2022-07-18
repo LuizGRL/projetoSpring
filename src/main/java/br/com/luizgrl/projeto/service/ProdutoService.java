@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.com.luizgrl.projeto.domain.Categoria;
+
 import br.com.luizgrl.projeto.domain.Produto;
 import br.com.luizgrl.projeto.repositories.CategoriaRepository;
 import br.com.luizgrl.projeto.repositories.ProdutoRepository;
