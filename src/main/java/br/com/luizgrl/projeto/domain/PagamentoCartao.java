@@ -2,9 +2,12 @@ package br.com.luizgrl.projeto.domain;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import br.com.luizgrl.projeto.domain.enums.EstadoPagamento;
 
 @Entity
+@JsonTypeName("PagamentoCartao")
 public class PagamentoCartao extends Pagamento{
     private Integer installments;
 

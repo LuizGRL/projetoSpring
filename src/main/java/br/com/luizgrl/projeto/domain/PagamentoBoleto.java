@@ -5,10 +5,12 @@ import java.util.Date;
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import br.com.luizgrl.projeto.domain.enums.EstadoPagamento;
 
 @Entity
+@JsonTypeName("PagamentoBoleto")
 public class PagamentoBoleto extends Pagamento {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date dueDate;

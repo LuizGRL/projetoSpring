@@ -11,11 +11,13 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import br.com.luizgrl.projeto.domain.enums.EstadoPagamento;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)// Como Pagamento é uma herança, na hora de criar o banco de dados é necessario especificar a fomar que vai ser criado para que tenha Pagamento com boleto e cartao nesse caso vai ser criada uma tabela para ambos usando SINGLE vai criar somente uma tabela onde os valores do tipo de pagamneto não corresnpondente vao ser nulo
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 public abstract class Pagamento implements Serializable{ // a classe eh asbtrata pois assim não permite que ela estanciada sendo necessario estanciar alguma das subclasses 
     private static final long serialVersionUID = 1L; 
     @Id// como o id de pagamento é o msm de pedido so precisa anotar que é um id e não é necessario gerar outro
