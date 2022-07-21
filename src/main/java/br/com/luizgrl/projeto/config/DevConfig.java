@@ -2,6 +2,8 @@ package br.com.luizgrl.projeto.config;
 
 import java.text.ParseException;
 
+import br.com.luizgrl.projeto.service.EmailService;
+import br.com.luizgrl.projeto.service.SmtpEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +30,11 @@ public class DevConfig {
 
         return true;
 
+    }
+
+    @Bean
+    public EmailService emailService(){
+        return  new SmtpEmailService();
     }
 
 
