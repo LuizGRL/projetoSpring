@@ -2,6 +2,8 @@ package br.com.luizgrl.projeto.config;
 
 import java.text.ParseException;
 
+import br.com.luizgrl.projeto.service.EmailService;
+import br.com.luizgrl.projeto.service.MockEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +22,12 @@ public class TestConfig {
         dbService.instantiateTestDatabase();
 
         return true;
+
+    }
+
+    @Bean // quando se usa essa anotação tranforma o metodo em componente
+    public EmailService emailService(){
+        return new MockEmailService(); // ao inver se retornar um emailService vai retornar um mockEmailService
 
     }
 

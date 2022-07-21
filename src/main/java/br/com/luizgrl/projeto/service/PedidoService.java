@@ -38,6 +38,9 @@ public class PedidoService {
     @Autowired
     private ClienteService clienteService;
 
+    @Autowired
+    private EmailService emailService;
+
     public Pedido find(Integer id){
         Optional<Pedido> obj = pedidoRepository.findById(id);
 
@@ -66,6 +69,7 @@ public class PedidoService {
         }
         itemPedidoRepository.saveAll(obj.getItemPedidos());
         System.out.println(obj); // quando é feito um sys out é automaticamente chamado o toString desse objeto caso o mesmo esteja definido
+        emailService.sendOrderConfirmationEmail(obj);
         return obj;
 
     }
