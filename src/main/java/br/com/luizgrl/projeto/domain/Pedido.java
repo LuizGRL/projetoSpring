@@ -1,8 +1,11 @@
 package br.com.luizgrl.projeto.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -53,7 +56,7 @@ public class Pedido implements Serializable{
     public double getValorTotal(){
         double sum=0.0;
         for(ItemPedido ip: itemPedidos){
-            sum =+ ip.getSubTotal();
+            sum = sum +  ip.getSubTotal();
         }
         return sum;
     }
@@ -131,11 +134,28 @@ public class Pedido implements Serializable{
         return true;
     }
 
-    
-    
-    
-    
-
-
-        
+    @Override
+    public String toString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
+        final StringBuffer sb = new StringBuffer("Pedido{");
+        sb.append("Pedido número: ");
+        sb.append(getId());
+        sb.append(", Instante: ");
+        sb.append(sdf.format(getMoment()));
+        sb.append(", Cliente: ");
+        sb.append(getCliente().getName());
+        sb.append(", CPF/CNPJ: ");
+        sb.append(getCliente().getCpfOrCnpj());
+        sb.append(", Situação do pagamento: ");
+        sb.append(getPagamento().getEstadoPagamento().getMensage());
+        sb.append("\nDetalhes:\n");
+        for(ItemPedido ip: getItemPedidos()){
+            sb.append(ip.toString());
+        }
+        sb.append(", Valor total: ");
+        sb.append(numberFormat.format(getValorTotal()));
+        sb.append('}');
+        return sb.toString();
+    }
 }

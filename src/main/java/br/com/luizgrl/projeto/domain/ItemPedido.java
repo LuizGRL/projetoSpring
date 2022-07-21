@@ -1,7 +1,8 @@
 package br.com.luizgrl.projeto.domain;
 
 import java.io.Serializable;
-
+import java.text.NumberFormat;
+import java.util.Locale;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
@@ -107,6 +108,20 @@ public class ItemPedido implements Serializable{
         return true;
     }
 
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("ItemPedido{");
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(new Locale("pt", "BR")); //vai formatar numero para padrao de dinheiro
+        sb.append(getProduto().getName());
+        sb.append(", Qted: ");
+        sb.append(getQuantity());
+        sb.append(", Preço unitario: ");
+        sb.append(numberFormat.format(getSubTotal()));
+        sb.append(", Subtotal: ");
+        sb.append(numberFormat.format(getSubTotal()));
+        sb.append("}");
+        sb.append("\n");
 
-    
+        return sb.toString();
+    }
 }

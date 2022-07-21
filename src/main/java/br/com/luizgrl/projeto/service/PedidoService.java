@@ -35,6 +35,9 @@ public class PedidoService {
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
 
+    @Autowired
+    private ClienteService clienteService;
+
     public Pedido find(Integer id){
         Optional<Pedido> obj = pedidoRepository.findById(id);
 
@@ -45,6 +48,7 @@ public class PedidoService {
     public Pedido insert(Pedido obj){
         obj.setId(null);
         obj.setMoment(new Date());
+        obj.setCliente(clienteService.find(obj.getCliente().getId()));
         obj.getPagamento().setEstadoPagamento(EstadoPagamento.PENDENTE);
         obj.getPagamento().setPedido(obj);
 
@@ -56,10 +60,12 @@ public class PedidoService {
         pagamentoRepository.save(obj.getPagamento());
         for(ItemPedido ip : obj.getItemPedidos()){
             ip.setDiscount(0.0);
+            ip.setProduto(produtoService.find(ip.getProduto().getId()));
             ip.setPrice(produtoService.find(ip.getProduto().getId()).getPrice());
             ip.setPedido(obj);
         }
         itemPedidoRepository.saveAll(obj.getItemPedidos());
+        System.out.println(obj); // quando é feito um sys out é automaticamente chamado o toString desse objeto caso o mesmo esteja definido
         return obj;
 
     }
