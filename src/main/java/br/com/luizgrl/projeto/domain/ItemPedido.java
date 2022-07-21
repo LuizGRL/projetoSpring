@@ -116,7 +116,7 @@ public class ItemPedido implements Serializable{
         sb.append(", Qted: ");
         sb.append(getQuantity());
         sb.append(", Preço unitario: ");
-        sb.append(numberFormat.format(getSubTotal()));
+        sb.append(numberFormat.format(getPrice()));
         sb.append(", Subtotal: ");
         sb.append(numberFormat.format(getSubTotal()));
         sb.append("}");
