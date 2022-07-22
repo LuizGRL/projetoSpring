@@ -69,7 +69,7 @@ public class PedidoService {
         }
         itemPedidoRepository.saveAll(obj.getItemPedidos());
         System.out.println(obj); // quando é feito um sys out é automaticamente chamado o toString desse objeto caso o mesmo esteja definido
-        emailService.sendOrderConfirmationEmail(obj);
+        emailService.sendOrderConfirmationHtmlEmail(obj);
         return obj;
 
     }
