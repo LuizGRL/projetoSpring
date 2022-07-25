@@ -14,9 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import br.com.luizgrl.projeto.domain.enums.TipoCliente;
 
 @Entity
@@ -30,7 +28,8 @@ public class Cliente implements Serializable  {
     private String email;
     private String cpfOrCnpj;
     private Integer tipoCliente;  // Eh necessario alterar tipoCliente para um integer pois eh mais vantajoso trabalhar com tipos inteiros
-    
+    @JsonIgnore //Para não mostrar hora que cliente for recuperado
+    private String password;
     @ElementCollection
     @CollectionTable(name="telefone") // como telefone é uma entidade fraca que não foi criada classe é necessario criar uma coleção de elementos para que ela seja adicionada na tabela do banco de dados
     private Set<String> telefones = new HashSet<>(); // e usa Set pois nele não permite que haja repetições assim caso seja adicionado mais de um numero eles nao irao ser repetidos 
@@ -45,15 +44,15 @@ public class Cliente implements Serializable  {
     public Cliente() {
     }
 
-    public Cliente(Integer id, String name, String email, String cpfOrCnpj, TipoCliente tipoCliente) {
+    public Cliente(Integer id, String name, String email, String cpfOrCnpj, TipoCliente tipoCliente,String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.cpfOrCnpj = cpfOrCnpj;
         this.tipoCliente =(tipoCliente==null) ?/*se o tipo cliente for nullo vai 
         ser atribuido valor nulo caso contrartio é atirbuido o valor */ null : tipoCliente.getCod(); // para pegar somento o codigo do tipo de cliente 
+        this.password = password;
     }
-
     public Integer getId() {
         return id;
     }
@@ -80,6 +79,14 @@ public class Cliente implements Serializable  {
 
     public String getCpfOrCnpj() {
         return cpfOrCnpj;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setCpfOrCnpj(String cpfOrCnpj) {

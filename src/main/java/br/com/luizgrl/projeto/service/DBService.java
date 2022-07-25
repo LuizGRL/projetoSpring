@@ -2,6 +2,8 @@ package br.com.luizgrl.projeto.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+
+import br.com.luizgrl.projeto.config.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +58,9 @@ public class DBService {
 
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
+
+	@Autowired
+	private SecurityConfig securityConfig;
 
     public void instantiateTestDatabase()throws ParseException{// vai server para iniciaalizar os dados criados 
 
@@ -119,9 +124,9 @@ public class DBService {
 		estadoRepository.saveAll(Arrays.asList(estado1,estado2));
 		cidadeRepository.saveAll(Arrays.asList(cidade1,cidade2,cidade3,cidade4));
 
-		Cliente cliente1 = new Cliente(null,"Luiz","testespringlgrl@gmail.com","0000000",TipoCliente.PESSOAFISICA);
-		Cliente cliente2 = new Cliente(null,"Paloma","paloma@gmail.com","0000000",TipoCliente.PESSOAFISICA);
-		Cliente cliente3 = new Cliente(null,"Loja","loja@email.com","0000000",TipoCliente.PESSOAJURIDICA);
+		Cliente cliente1 = new Cliente(null,"Luiz","testespringlgrl@gmail.com","0000000",TipoCliente.PESSOAFISICA,securityConfig.bCryptPasswordEncoder().encode("123"));
+		Cliente cliente2 = new Cliente(null,"Paloma","paloma@gmail.com","0000000",TipoCliente.PESSOAFISICA,securityConfig.bCryptPasswordEncoder().encode("Teste"));
+		Cliente cliente3 = new Cliente(null,"Loja","loja@email.com","0000000",TipoCliente.PESSOAJURIDICA,securityConfig.bCryptPasswordEncoder().encode("AAAASASAS"));
 
 		cliente1.getTelefones().addAll(Arrays.asList("888888" ,"8855588","9999999"));
 		cliente2.getTelefones().addAll(Arrays.asList("777777" ,"6666666","3344553"));

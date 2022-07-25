@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import br.com.luizgrl.projeto.config.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,9 @@ public class ClienteService {
 
     @Autowired
     private EnderecoRepository enderecoRepository;
+
+    @Autowired
+    private SecurityConfig securityConfig;
 
     public Cliente find(Integer id) {
         Optional<Cliente> obj = clienteRepository.findById(id);
@@ -56,11 +60,11 @@ public class ClienteService {
     }
 
     public Cliente fromDTO(ClienteDTO objDto){
-        return new Cliente(objDto.getId(), objDto.getName(), objDto.getEmail(), null, null);
+        return new Cliente(objDto.getId(), objDto.getName(), objDto.getEmail(), null, null,null);
     }
 
     public Cliente fromDTO(NewClienteDTO objDto) { // Usado para converter de DTO para categoria
-        Cliente cliente = new Cliente(null, objDto.getName(), objDto.getEmail(), objDto.getCpfOrCnpj(), TipoCliente.toEnum(objDto.getTipoCliente()));
+        Cliente cliente = new Cliente(null, objDto.getName(), objDto.getEmail(), objDto.getCpfOrCnpj(), TipoCliente.toEnum(objDto.getTipoCliente()),securityConfig.bCryptPasswordEncoder().encode(objDto.getPassword()));
         Cidade cidade = new Cidade(objDto.getCidadeId(),null,null);
         Endereco endereco = new Endereco(null, objDto.getLogradouro(), objDto.getNumero(), objDto.getComplemento(), objDto.getBairro(), objDto.getCep(), cliente, cidade);
         cliente.getEnderecos().add(endereco);
