@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import br.com.luizgrl.projeto.config.SecurityConfig;
+import br.com.luizgrl.projeto.domain.enums.Perfil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -125,9 +126,11 @@ public class DBService {
 		cidadeRepository.saveAll(Arrays.asList(cidade1,cidade2,cidade3,cidade4));
 
 		Cliente cliente1 = new Cliente(null,"Luiz","testespringlgrl@gmail.com","0000000",TipoCliente.PESSOAFISICA,securityConfig.bCryptPasswordEncoder().encode("123"));
+		cliente1.addPerfil(Perfil.ADMIN);
 		Cliente cliente2 = new Cliente(null,"Paloma","paloma@gmail.com","0000000",TipoCliente.PESSOAFISICA,securityConfig.bCryptPasswordEncoder().encode("Teste"));
+		cliente2.addPerfil(Perfil.CLIENTE);
 		Cliente cliente3 = new Cliente(null,"Loja","loja@email.com","0000000",TipoCliente.PESSOAJURIDICA,securityConfig.bCryptPasswordEncoder().encode("AAAASASAS"));
-
+		cliente3.addPerfil(Perfil.CLIENTE);
 		cliente1.getTelefones().addAll(Arrays.asList("888888" ,"8855588","9999999"));
 		cliente2.getTelefones().addAll(Arrays.asList("777777" ,"6666666","3344553"));
 		cliente3.getTelefones().addAll(Arrays.asList("123331" ,"444545","7758823"));

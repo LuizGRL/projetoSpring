@@ -4,16 +4,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+
+import br.com.luizgrl.projeto.domain.enums.Perfil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import br.com.luizgrl.projeto.domain.enums.TipoCliente;
 
@@ -33,7 +28,9 @@ public class Cliente implements Serializable  {
     @ElementCollection
     @CollectionTable(name="telefone") // como telefone é uma entidade fraca que não foi criada classe é necessario criar uma coleção de elementos para que ela seja adicionada na tabela do banco de dados
     private Set<String> telefones = new HashSet<>(); // e usa Set pois nele não permite que haja repetições assim caso seja adicionado mais de um numero eles nao irao ser repetidos 
-    
+    @ElementCollection(fetch = FetchType.EAGER) // fetch garanate que toda vez que um cliente for buscado no BD o perfil vai ser buscado junto
+    @CollectionTable(name = "perfil")
+    private Set<Integer> perfis = new HashSet<>();
     @OneToMany(mappedBy = "cliente",cascade = CascadeType.ALL)// se cliente for deletado todos os endereços vao ser deletados tambem
     private List<Endereco> enderecos = new ArrayList<>();
     
@@ -42,6 +39,7 @@ public class Cliente implements Serializable  {
     private List<Pedido> pedidos = new ArrayList<>();
 
     public Cliente() {
+        addPerfil(Perfil.CLIENTE);
     }
 
     public Cliente(Integer id, String name, String email, String cpfOrCnpj, TipoCliente tipoCliente,String password) {
@@ -124,6 +122,14 @@ public class Cliente implements Serializable  {
 
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
+    }
+
+    public Set<Perfil> getPerfils(){
+        return  perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+    }
+    public void addPerfil(Perfil perfil){
+        perfis.add(perfil.getCod());
+
     }
 
     

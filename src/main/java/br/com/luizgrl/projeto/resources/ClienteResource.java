@@ -21,7 +21,7 @@ import br.com.luizgrl.projeto.dto.NewClienteDTO;
 import br.com.luizgrl.projeto.service.ClienteService;
 
 @RestController
-@RequestMapping(value = "/cliente")
+@RequestMapping(value = "/clientes")
 public class ClienteResource {
     @Autowired
     private ClienteService clienteService;
