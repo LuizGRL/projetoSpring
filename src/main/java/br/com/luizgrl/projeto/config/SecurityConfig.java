@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -32,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             http.headers().frameOptions().disable(); // libera acesso ao h2
         }
         http.cors().and().csrf().disable();//vai proteger de ataques csrf
-        http.authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll().anyRequest().authenticated(); // vai permitir todos os caminhos que estejam, contudo caso nao esteja na lista vao ser autenticadas
+        http.authorizeRequests().antMatchers(HttpMethod.GET, PUBLIC_MATCHERS).permitAll().anyRequest().authenticated(); // vai permitir todos os caminhos que estejam, contudo caso nao esteja na lista vao ser autenticadas
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // vai assegurar que o back end nao vai criar uma seção de usuario
     }
     @Bean
