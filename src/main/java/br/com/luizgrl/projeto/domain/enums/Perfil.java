@@ -16,6 +16,9 @@ public enum Perfil {
         this.desc = desc;
     }
 
+    public String getDesc() {
+        return desc;
+    }
 
     public static Perfil toEnum(Integer cod) {
         if (cod == null) {
