@@ -69,4 +69,8 @@ public class UserSS implements UserDetails {
         this.password = password;
         this.authorities = perfis.stream().map(x -> new SimpleGrantedAuthority(x.getDesc())).collect(Collectors.toList());
     }
+
+    public boolean hasRole(Perfil perfil){
+        return getAuthorities().contains(new SimpleGrantedAuthority(perfil.getDesc())); // vai buscar se na lista possui mas é necessario converter a descrição de perdil para o formato de authorites
+    }
 }

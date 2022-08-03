@@ -5,7 +5,15 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import br.com.luizgrl.projeto.domain.Cliente;
+import br.com.luizgrl.projeto.domain.enums.Perfil;
+import br.com.luizgrl.projeto.repositories.ClienteRepository;
+import br.com.luizgrl.projeto.security.UserSS;
+import br.com.luizgrl.projeto.service.exceptions.AuthorizationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.com.luizgrl.projeto.domain.ItemPedido;
@@ -41,12 +49,9 @@ public class PedidoService {
     @Autowired
     private EmailService emailService;
 
-    public Pedido find(Integer id){
-        Optional<Pedido> obj = pedidoRepository.findById(id);
+    @Autowired
+    private ClienteRepository clienteRepository;
 
-        return obj.orElseThrow(() -> new ObjectNotFoundException("Id de objeto não encontrado. Id"+id));
-
-    }
     @Transactional
     public Pedido insert(Pedido obj){
         obj.setId(null);
@@ -71,6 +76,20 @@ public class PedidoService {
         System.out.println(obj); // quando é feito um sys out é automaticamente chamado o toString desse objeto caso o mesmo esteja definido
         emailService.sendOrderConfirmationHtmlEmail(obj);
         return obj;
+
+    }
+
+    public Pedido find(Integer id) {
+        UserSS user = UserService.authenticated();
+
+        Optional<Pedido> obj = pedidoRepository.findById(id);
+        if (user == null || !user.hasRole(Perfil.ADMIN) && !obj.get().getCliente().getId().equals(user.getId())) {
+
+            throw new AuthorizationException("Acesso Negado!");
+        }
+
+        return obj.orElseThrow(() -> new ObjectNotFoundException(
+                "Objeto não encontrado! Id: " + id + ", Tipo: " + Pedido.class.getName()));
 
     }
     

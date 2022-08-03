@@ -2,6 +2,7 @@ package br.com.luizgrl.projeto.resources.exceptions;
 
 import javax.servlet.http.HttpServletRequest;
 
+import br.com.luizgrl.projeto.service.exceptions.AuthorizationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -14,11 +15,13 @@ import br.com.luizgrl.projeto.service.exceptions.ObjectNotFoundException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
+    @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<StandartError> objectNotFound(ObjectNotFoundException exception, HttpServletRequest request ){ // padrao do contrle de avisos recebe a exeção (ObjectNotFound), e as informaç~es da requisição
         StandartError error = new StandartError(HttpStatus.NOT_FOUND.value(),exception.getMessage(),System.currentTimeMillis());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);// vai passar o erro de não encotrado passando a mensagem no corpo do retorno 
     }
 
+    @ExceptionHandler(DataIntegrityException.class)
     public ResponseEntity<StandartError> dataIntegrityException(DataIntegrityException exception,HttpServletRequest request){
         StandartError error = new StandartError(HttpStatus.BAD_REQUEST.value(),exception.getMessage(),System.currentTimeMillis());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
@@ -31,6 +34,12 @@ public class ResourceExceptionHandler {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<StandartError> authorization(AuthorizationException exception, HttpServletRequest request ){ // padrao do contrle de avisos recebe a exeção (ObjectNotFound), e as informaç~es da requisição
+        StandartError error = new StandartError(HttpStatus.FORBIDDEN.value(),exception.getMessage(),System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
     }
     
 }

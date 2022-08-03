@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,12 +26,12 @@ import br.com.luizgrl.projeto.service.ClienteService;
 public class ClienteResource {
     @Autowired
     private ClienteService clienteService;
-
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> find(@PathVariable Integer id) {
         Cliente obj = clienteService.find(id);
         return ResponseEntity.ok().body(obj);
     }
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping
     public ResponseEntity<List<ClienteDTO>> findAll(){
         List<Cliente> list = clienteService.findAll();
@@ -45,6 +46,7 @@ public class ClienteResource {
         obj = clienteService.update(obj);
         return ResponseEntity.noContent().build();
     }
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(value = "/{id}", method =  RequestMethod.DELETE )
     public ResponseEntity<Void> delete(@PathVariable Integer id){
         clienteService.delete(id);

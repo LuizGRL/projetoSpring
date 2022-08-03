@@ -6,6 +6,9 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import br.com.luizgrl.projeto.config.SecurityConfig;
+import br.com.luizgrl.projeto.domain.enums.Perfil;
+import br.com.luizgrl.projeto.security.UserSS;
+import br.com.luizgrl.projeto.service.exceptions.AuthorizationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -34,6 +37,10 @@ public class ClienteService {
     private SecurityConfig securityConfig;
 
     public Cliente find(Integer id) {
+        UserSS user = UserService.authenticated(); // vai buscar o usuario para verificiar se o mesmo é admin
+        if(user==null||!user.hasRole(Perfil.ADMIN) &&!id.equals(user.getId())){ // vai buscar um usuario que nao seja nulo que seja admin e que se o id for diferente do usuario logado
+            throw  new AuthorizationException("Acesso negado");
+        }
         Optional<Cliente> obj = clienteRepository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(
                 "Cliente id: " + id + " Não foi encontrado. Tipo: " + Cliente.class.getName()));
