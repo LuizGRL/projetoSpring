@@ -1,5 +1,6 @@
 package br.com.luizgrl.projeto.service;
 
+import br.com.luizgrl.projeto.domain.Cliente;
 import br.com.luizgrl.projeto.domain.Pedido;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,7 +55,6 @@ public abstract class AbstractEmailService implements EmailService{
         }
     }
 
-
     private MimeMessage prepareMimeMainMessageFromPedido(Pedido obj) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
@@ -66,4 +66,20 @@ public abstract class AbstractEmailService implements EmailService{
         return  mimeMessage;
 
     }
+    @Override
+    public  void sendNewPasswordEmail(Cliente cliente, String newPassword){
+        SimpleMailMessage simpleMailMessage = prepareNewPasswordEmail(cliente,newPassword);
+        sendEmail(simpleMailMessage);
+    }
+    protected SimpleMailMessage prepareNewPasswordEmail(Cliente cliente, String newPassword) {
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setTo(cliente.getEmail()); // destinatrio do email
+        simpleMailMessage.setFrom(sender); // remetende do email
+        simpleMailMessage.setSubject("Solicitação de nova senha:  "+ cliente.getId());
+        simpleMailMessage.setSentDate(new Date(System.currentTimeMillis()));
+        simpleMailMessage.setText("Nova senha: "+newPassword);
+        return simpleMailMessage;
+
+    }
+
 }
