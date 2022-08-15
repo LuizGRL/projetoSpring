@@ -1,5 +1,6 @@
 package br.com.luizgrl.projeto.service;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,7 @@ import br.com.luizgrl.projeto.repositories.ClienteRepository;
 import br.com.luizgrl.projeto.repositories.EnderecoRepository;
 import br.com.luizgrl.projeto.service.exceptions.DataIntegrityException;
 import br.com.luizgrl.projeto.service.exceptions.ObjectNotFoundException;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ClienteService {
@@ -35,6 +37,9 @@ public class ClienteService {
 
     @Autowired
     private SecurityConfig securityConfig;
+
+    @Autowired
+    private  S3Service s3Service;
 
     public Cliente find(Integer id) {
         UserSS user = UserService.authenticated(); // vai buscar o usuario para verificiar se o mesmo é admin
@@ -95,7 +100,10 @@ public class ClienteService {
         enderecoRepository.saveAll(obj.getEnderecos());
         return obj;
 
+    }
 
+    public URI uploadProfilePicture(MultipartFile multipartFile){
+        return s3Service.updloadFile(multipartFile);
     }
 
 

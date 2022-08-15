@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class ProjetoApplication implements CommandLineRunner{
+
 	
 
 	public static void main(String[] args) {
@@ -16,8 +17,7 @@ public class ProjetoApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		
-	
+
 	}
 
 }
