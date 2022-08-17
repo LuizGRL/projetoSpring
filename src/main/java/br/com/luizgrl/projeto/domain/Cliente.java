@@ -131,7 +131,4 @@ public class Cliente implements Serializable  {
         perfis.add(perfil.getCod());
 
     }
-
-    
-
 }

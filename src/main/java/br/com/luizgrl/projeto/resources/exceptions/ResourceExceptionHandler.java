@@ -3,6 +3,10 @@ package br.com.luizgrl.projeto.resources.exceptions;
 import javax.servlet.http.HttpServletRequest;
 
 import br.com.luizgrl.projeto.service.exceptions.AuthorizationException;
+import br.com.luizgrl.projeto.service.exceptions.FileException;
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -38,6 +42,32 @@ public class ResourceExceptionHandler {
 
     @ExceptionHandler(AuthorizationException.class)
     public ResponseEntity<StandartError> authorization(AuthorizationException exception, HttpServletRequest request ){ // padrao do contrle de avisos recebe a exeção (ObjectNotFound), e as informaç~es da requisição
+        StandartError error = new StandartError(HttpStatus.FORBIDDEN.value(),exception.getMessage(),System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+    }
+
+    @ExceptionHandler(FileException.class)
+    public ResponseEntity<StandartError> file(FileException exception, HttpServletRequest request ){ // padrao do contrle de avisos recebe a exeção (ObjectNotFound), e as informaç~es da requisição
+        StandartError error = new StandartError(HttpStatus.BAD_REQUEST.value(),exception.getMessage(),System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(AmazonServiceException.class)
+    public ResponseEntity<StandartError> amazonService(AmazonServiceException exception, HttpServletRequest request ){ // padrao do contrle de avisos recebe a exeção (ObjectNotFound), e as informaç~es da requisição
+        HttpStatus status = HttpStatus.valueOf(exception.getErrorCode());
+        StandartError error = new StandartError(status.value(),exception.getMessage(),System.currentTimeMillis());
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(AmazonClientException.class)
+    public ResponseEntity<StandartError> amazonClient(AmazonClientException exception, HttpServletRequest request ){ // padrao do contrle de avisos recebe a exeção (ObjectNotFound), e as informaç~es da requisição
+        StandartError error = new StandartError(HttpStatus.FORBIDDEN.value(),exception.getMessage(),System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+
+    }
+
+    @ExceptionHandler(AmazonS3Exception.class)
+    public ResponseEntity<StandartError> amazonS3(AmazonS3Exception exception, HttpServletRequest request ){ // padrao do contrle de avisos recebe a exeção (ObjectNotFound), e as informaç~es da requisição
         StandartError error = new StandartError(HttpStatus.FORBIDDEN.value(),exception.getMessage(),System.currentTimeMillis());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
     }

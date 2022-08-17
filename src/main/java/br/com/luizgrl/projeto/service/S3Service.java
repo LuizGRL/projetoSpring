@@ -1,5 +1,6 @@
 package br.com.luizgrl.projeto.service;
 
+import br.com.luizgrl.projeto.service.exceptions.FileException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -31,7 +32,7 @@ public class S3Service {
             return updloadFile(is, fileName, contentType);
 
         }catch ( IOException e){
-            throw new RuntimeException("Erro de IO");
+            throw new FileException("Erro de IO");
 
         }
 
